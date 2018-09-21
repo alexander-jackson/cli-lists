@@ -103,9 +103,6 @@ struct List* extract_list(char* content, size_t start, size_t end) {
 	// Split the string
 	char** lines = split(substr, '\n');
 
-	// Free the substring
-	free(substr);
-
 	// Get the title of the list
 	size_t len_title = strlen(lines[0]);
 	char* title = substring(lines[0], 1, len_title - 1);
@@ -126,6 +123,9 @@ struct List* extract_list(char* content, size_t start, size_t end) {
 	// Null terminate the buffer
 	items[count] = NULL;
 
+	// Free the substring
+	free(substr);
+	// Free the split string parts we didn't use
 	free(lines[0]);
 	free(lines[count + 1]);
 	free(lines);
@@ -139,12 +139,6 @@ struct List* extract_list(char* content, size_t start, size_t end) {
 
 	return list;
 }
-
-// [uni stuff]
-// chicken breast
-// beef
-// pasta
-// rice
 
 struct List** parse_file(char* content) {
 	// Calculate the number of lists
