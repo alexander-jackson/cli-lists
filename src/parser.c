@@ -137,7 +137,7 @@ struct List* extract_list(char* content, size_t start, size_t end) {
 
 	display_list(list);
 
-	free_list(list);
+	return list;
 }
 
 // [uni stuff]
@@ -158,7 +158,7 @@ struct List** parse_file(char* content) {
 	// Allocate space for the lists
 	List** lists = malloc(sizeof(struct List*) * (num_lists + 1));
 
-	char* list_title = NULL;
+	size_t list_index = 0;
 
 	for (size_t i = 0; content[i] != '\0'; ++i) {
 		if (content[i] == '[') {
@@ -166,38 +166,13 @@ struct List** parse_file(char* content) {
 			int end = next_instance_of('[', content, i);
 			if (end == -1) end = strlen(content);
 
-			struct List* extracted = extract_list(content, i, end);
-
+			lists[list_index++] = extract_list(content, i, end);
 			i = end - 1;
 		}
 	}
-	/*
-	for (size_t i = 0; content[i] != '\0'; ++i) {
-		if (content[i] == '[') {
-			if (list_title != NULL) free(list_title);
-			int end = next_instance_of(']', content, i);
-			if (end == -1) break;
 
-			list_title = substring(content, i + 1, end);
-			printf("List title: %s\n", list_title);
-		}
-		else if (content[i] == '\n') {
-			int end = next_instance_of('\n', content, i);
-			if (end == -1) break;
-
-			char* substr = substring(content, i + 1, end);
-			if (substr[0] == '[' || substr[0] == '\0') {
-				free(substr);
-				continue;
-			}
-			printf("List title: %s, Current line: %s\n", list_title, substr);
-			free(substr);
-		}
-	}
-	*/
+	// Add the null pointer
+	lists[num_lists] = NULL;
 	
-	free(list_title);
-	free(lists);
-
-	puts("End of parser.");
+	return lists;
 }
