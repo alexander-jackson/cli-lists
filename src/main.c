@@ -7,7 +7,14 @@
 int main(void) {
 	char* contents = read_file("sample.toml");
 
-	parse_file(contents);
+	struct List** lists = parse_file(contents);
+
+	// Ensure we free the lists
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		free_list(lists[i]);
+	}
+
+	free(lists);
 
 	free(contents);
 
