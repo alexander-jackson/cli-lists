@@ -126,9 +126,9 @@ struct List* extract_list(char* content, size_t start, size_t end) {
 	// Null terminate the buffer
 	items[count] = NULL;
 
-	free(lines);
 	free(lines[0]);
 	free(lines[count + 1]);
+	free(lines);
 
 	// Create the List structure
 	struct List* list = malloc(sizeof(struct List));
