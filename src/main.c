@@ -2,11 +2,12 @@
 #include <stdlib.h>
 
 #include "file_io.h"
+#include "parser.h"
 
 int main(void) {
 	char* contents = read_file("sample.toml");
 
-	printf("%s\n", contents);
+	parse_file(contents);
 
 	free(contents);
 
