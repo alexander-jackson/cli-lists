@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "file_io.h"
+#include "parser.h"
 
 char* read_file(char* filepath) {
 	// Open the file
@@ -56,4 +58,23 @@ char* read_file(char* filepath) {
 	fclose(f);
 	// Return the contents of the file
 	return contents;
+}
+
+void write_file(char* filepath, struct List** lists) {
+	// Open the file
+	FILE* f = fopen(filepath, "w");
+
+	// Iterate through the lists
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		// Write the title to the file
+		fprintf(f, "[%s]\n", lists[i]->title);
+		// Iterate through the items and write them
+		for (size_t j = 0; lists[i]->items[j] != NULL; ++j) {
+			// Write the item to the file
+			fprintf(f, "%s\n", lists[i]->items[j]);
+		}
+
+		// Write the final new line after the list
+		fprintf(f, "\n");
+	}
 }
