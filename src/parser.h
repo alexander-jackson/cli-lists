@@ -1,3 +1,6 @@
+#ifndef PARSER_H
+#define PARSER_H
+
 typedef struct List {
 	char* title;
 	char** items;
@@ -13,3 +16,5 @@ char* clean(char*, char*);
 
 struct List* extract_list(char*, size_t, size_t);
 struct List** parse_file(char*);
+
+#endif // PARSER_H
