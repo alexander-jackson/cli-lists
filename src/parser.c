@@ -96,77 +96,113 @@ char** split(char* str, unsigned char delimiter) {
 	return result;
 }
 
-struct List* extract_list(char* content, size_t start, size_t end) {
-	// Get the substring
-	char* substr = substring(content, start, end);
-
-	// Split the string
-	char** lines = split(substr, '\n');
-
-	// Get the title of the list
-	size_t len_title = strlen(lines[0]);
-	char* title = substring(lines[0], 1, len_title - 1);
-
-	// Get the number of items within the list
-	size_t count = 0;
-	for (size_t i = 1; lines[i] != NULL; ++i) {
-		if (lines[i][0] != '\0') ++count;	
-	}
-
-	// Allocate the memory required
-	char** items = malloc(sizeof(char*) * (count + 1));
-
-	for (size_t i = 1; i <= count; ++i) {
-		items[i - 1] = lines[i];
-	}
-
-	// Null terminate the buffer
-	items[count] = NULL;
-
-	// Free the substring
-	free(substr);
-	// Free the split string parts we didn't use
-	free(lines[0]);
-	free(lines[count + 1]);
-	free(lines);
-
-	// Create the List structure
-	struct List* list = malloc(sizeof(struct List));
-	list->title = title;
-	list->items = items;
-
-	display_list(list);
-
-	return list;
-}
-
-struct List** parse_file(char* content) {
-	// Calculate the number of lists
-	size_t num_lists = 0;
-	for (size_t i = 0; content[i] != '\0'; ++i) {
-		if (content[i] == '[') ++num_lists;
-	}
-
-	printf("%zu lists.\n", num_lists);
-
-	// Allocate space for the lists
-	List** lists = malloc(sizeof(struct List*) * (num_lists + 1));
-
-	size_t list_index = 0;
-
-	for (size_t i = 0; content[i] != '\0'; ++i) {
-		if (content[i] == '[') {
-			// Find the next one
-			int end = next_instance_of('[', content, i);
-			if (end == -1) end = strlen(content);
-
-			lists[list_index++] = extract_list(content, i, end);
-			i = end - 1;
+char* clean(char* str, char* rem) {
+	size_t removeable = 0, size;
+	// Iterate through once
+	for (size = 0; str[size] != '\0'; ++size) {
+		for (size_t i = 0; rem[i] != '\0'; ++i) {
+			if (str[size] == rem[i])
+				++removeable;
 		}
 	}
 
-	// Add the null pointer
-	lists[num_lists] = NULL;
-	
+	// Allocate memory for the new size of the string
+	char* final = malloc(sizeof(char) * (size - removeable + 1));
+	// Store the current position
+	size_t pos = 0;
+
+	for (size_t i = 0; str[i] != '\0'; ++i) {
+		size_t flag = 1;
+
+		for (size_t j = 0; rem[j] != '\0'; ++j) {
+			if (str[i] == rem[j])
+				flag = 0;
+		}
+
+		if (flag)
+			final[pos++] = str[i];
+	}
+
+	return final;
+}
+
+size_t count_items(char** lines, size_t current_pos) {
+	size_t items = 0;
+
+	for (size_t i = current_pos; lines[i] != NULL; ++i) {
+		if (lines[i][0] != '\0')
+			++items;
+
+		if (lines[i][0] == '[')
+			return items - 1;
+	}
+
+	return items;
+}
+
+char** get_list_items(char** lines, size_t start) {
+	// Get the number of items
+	size_t item_count = count_items(lines, start);
+
+	// Allocate memory for the items
+	char** items = malloc(sizeof(char*) * (item_count + 1));
+	// Track the position in memory
+	size_t pos = 0;
+
+	for (size_t i = start; lines[i] != NULL; ++i) {
+		if (lines[i][0] != '\0')
+			items[pos++] = lines[i];
+
+		if (lines[i][0] == '[')
+			break;
+	}
+
+	items[item_count] = NULL;
+
+	return items;
+}
+
+struct List** parse_file(char* content) {
+	// Split the list into lines
+	char** lines = split(content, '\n');
+
+	// Count the number of lists
+	size_t list_count = 0;
+	for (size_t i = 0; lines[i] != NULL; ++i) {
+		if (lines[i][0] == '[')
+			++list_count;
+	}
+
+	// Allocate memory for the lists
+	struct List** lists = malloc(sizeof(struct List*) * (list_count + 1));
+	// Track the position
+	size_t pos = 0;
+
+	for (size_t i = 0; lines[i] != NULL; ++i) {
+		if (lines[i][0] == '[') {
+			// Generate a new list structure
+			struct List* current_list = malloc(sizeof(struct List));
+			// Set the name of the list
+			current_list->title = clean(lines[i], "[]");
+			// Set the items within it
+			current_list->items = get_list_items(lines, i + 1);
+			// Add it to the memory structure
+			lists[pos++] = current_list;
+		}
+	}
+
+	// Free the unused parts of the data
+	for (size_t i = 0; lines[i] != NULL; ++i) {
+		if (lines[i][0] == '[' || lines[i][0] == '\0')
+			free(lines[i]);
+	}
+
+	// Free the pointer to lines itself
+	free(lines);
+
+	// Add the NULL pointer
+	lists[list_count] = NULL;
+
+	// Return the parsed file
 	return lists;
 }
