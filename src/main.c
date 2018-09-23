@@ -14,6 +14,9 @@ int main(void) {
 		display_list(lists[i]);
 	}
 
+	// Write the list to a new file
+	write_file("rewritten.toml", lists);
+
 	// Ensure we free the lists
 	for (size_t i = 0; lists[i] != NULL; ++i) {
 		free_list(lists[i]);
