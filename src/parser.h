@@ -1,14 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-typedef struct List {
-	char* title;
-	char** items;
-} List;
-
-void free_list(struct List*);
-void display_list(struct List*);
-
 int next_instance_of(unsigned char, char*, size_t);
 char* substring(char*, size_t, size_t);
 char** split(char*, unsigned char);
