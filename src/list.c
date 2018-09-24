@@ -23,6 +23,9 @@ void display_list(struct List* list) {
 	// Display the title
 	printf("List Title: %s\n", list->title);
 
+	// Display the item count
+	printf("Item count: %zu\n", list->item_count);
+
 	// Display the items
 	for (size_t i = 0; list->items[i] != NULL; ++i) {
 		printf("%s\n", list->items[i]);

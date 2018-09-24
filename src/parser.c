@@ -66,6 +66,8 @@ struct List** parse_file(char* content) {
 			current_list->title = clean(lines[i], "[]");
 			// Set the items within it
 			current_list->items = get_list_items(lines, i + 1);
+			// Get the number of items in the list
+			current_list->item_count = count_items(lines, i + 1);
 			// Add it to the memory structure
 			lists[pos++] = current_list;
 		}
