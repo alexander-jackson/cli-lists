@@ -123,6 +123,8 @@ char* clean(char* str, char* rem) {
 			final[pos++] = str[i];
 	}
 
+	final[size - removeable] = '\0';
+
 	return final;
 }
 
