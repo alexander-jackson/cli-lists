@@ -77,4 +77,7 @@ void write_file(char* filepath, struct List** lists) {
 		// Write the final new line after the list
 		fprintf(f, "\n");
 	}
+
+	// Close the file
+	fclose(f);
 }
