@@ -50,5 +50,14 @@ void new_list(int argc, char** argv) {
 	// Write the contents to a new file
 	write_file("output.toml", lists);
 
-	free(list_title);
+	// Free all the lists
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		free_list(lists[i]);
+	}
+
+	// Free the pointer to lists
+	free(lists);
+
+	// Free the output of read_file
+	free(lines);
 }
