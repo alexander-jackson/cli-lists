@@ -93,3 +93,37 @@ char* clean(char* str, char* rem) {
 
 	return final;
 }
+
+char* join(char** arr, size_t start, size_t end, unsigned char delim) {
+	// Calculate the amount of memory needed
+	size_t len = 0;
+
+	for (size_t i = start; i < end; ++i) {
+		len += strlen(arr[i]) + 1;
+	}
+
+	// Remove the last delimiter
+	--len;
+	// Allocate memory for the string
+	char* joined = malloc(sizeof(char) * (len + 1));
+	// Store our position
+	size_t pos = 0;
+
+	// Iterate through and copy the string in
+	for (size_t i = start; i < end; ++i) {
+		// Get the length of the string
+		size_t current_len = strlen(arr[i]);
+		// Copy into memory
+		strncpy(joined + pos, arr[i], current_len);
+		// Update our position
+		pos += current_len;
+		// Copy the delimiter in
+		if (i + 1 != end)
+			joined[pos++] = delim;
+	}
+
+	// Assign the null byte
+	joined[len] = '\0';
+
+	return joined;
+}

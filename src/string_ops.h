@@ -9,4 +9,6 @@ char** split(char*, unsigned char);
 
 char* clean(char*, char*);
 
+char* join(char**, size_t, size_t, unsigned char);
+
 #endif
