@@ -61,3 +61,49 @@ void new_list(int argc, char** argv) {
 	// Free the output of read_file
 	free(lines);
 }
+
+void add_item(int argc, char** argv) {
+	// Query should be ./list add {list name} ...
+	// ... is the item they wish to add
+	char* list_name = argv[2];
+	char* item_text = join(argv, 3, argc, ' ');
+
+	// Read the contents of the file
+	char* lines = read_file("output.toml");
+	// Parse the file
+	struct List** lists = parse_file(lines);
+
+	// Find the list with the name the user has specified
+	size_t pos;
+
+	while (1) {
+		if (lists[pos] == NULL) {
+			pos = -1;
+			break;
+		}
+
+		if (!strcmp(lists[pos]->title, list_name)) {
+			break;
+		}
+
+		++pos;
+	}
+
+	// If pos == -1 then the list wasn't found
+	if (pos == -1) {
+		fprintf(stderr, "The list '%s' was not found within the file.\n", list_name);
+	}
+
+	// Free the item_text
+	free(item_text);
+
+	// Free the file lines
+	free(lines);
+
+	// Free all the lists and the pointer to them
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		free_list(lists[i]);
+	}
+
+	free(lists);
+}
