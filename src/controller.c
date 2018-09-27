@@ -12,6 +12,8 @@ void run_command(char* command, int argc, char** argv) {
 	// Check which command to run
 	if (!strcmp(command, "new")) {
 		new_list(argc, argv);
+	} else if (!strcmp(command, "add")) {
+		add_item(argc, argv);
 	}
 }
 
@@ -68,13 +70,20 @@ void add_item(int argc, char** argv) {
 	char* list_name = argv[2];
 	char* item_text = join(argv, 3, argc, ' ');
 
+	// Check that the item_text exists
+	if (item_text[0] == '\0') {
+		fputs("You cannot enter a string of length 0.\n", stderr);
+		free(item_text);
+		exit(1);
+	}
+
 	// Read the contents of the file
 	char* lines = read_file("output.toml");
 	// Parse the file
 	struct List** lists = parse_file(lines);
 
 	// Find the list with the name the user has specified
-	size_t pos;
+	int pos = 0;
 
 	while (1) {
 		if (lists[pos] == NULL) {
@@ -92,18 +101,29 @@ void add_item(int argc, char** argv) {
 	// If pos == -1 then the list wasn't found
 	if (pos == -1) {
 		fprintf(stderr, "The list '%s' was not found within the file.\n", list_name);
+		free(item_text);
+		free(lines);
+		free_list_pointer_array(lists);
+		exit(1);
 	}
 
-	// Free the item_text
-	free(item_text);
+	// Get the list pointer
+	struct List* to_update = lists[pos];
+
+	// Reallocate memory and update the list
+	size_t item_count = to_update->item_count;
+	to_update->items = realloc(to_update->items, sizeof(char*) * (item_count + 2));
+	// Null terminate the items
+	to_update->items[item_count + 1] = NULL;
+	// Add the new item
+	to_update->items[item_count] = item_text;
+
+	// Write to the new file
+	write_file("output.toml", lists);
 
 	// Free the file lines
 	free(lines);
 
-	// Free all the lists and the pointer to them
-	for (size_t i = 0; lists[i] != NULL; ++i) {
-		free_list(lists[i]);
-	}
-
-	free(lists);
+	// Free the list pointers
+	free_list_pointer_array(lists);
 }
