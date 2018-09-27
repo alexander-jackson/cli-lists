@@ -11,6 +11,8 @@ typedef struct List {
 
 void free_list(struct List*);
 
+void free_list_pointer_array(struct List**);
+
 void display_list(struct List*);
 
 #endif

@@ -19,6 +19,14 @@ void free_list(struct List* list) {
 	free(list);
 }
 
+void free_list_pointer_array(struct List** lists) {
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		free_list(lists[i]);
+	}
+
+	free(lists);
+}
+
 void display_list(struct List* list) {
 	// Display the title
 	printf("List Title: %s\n", list->title);
