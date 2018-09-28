@@ -1,5 +1,5 @@
 docker_image_name="dockerimage"
-executable="main"
+executable="lists"
 arguments="$@"
 
 read -r -d '' COMMANDS << EOM

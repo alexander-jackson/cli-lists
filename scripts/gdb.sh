@@ -1,6 +1,6 @@
 docker_image_name="dockerimage"
 docker_options="--cap-add=SYS_PTRACE --security-opt seccomp=unconfined"
-executable="main"
+executable="lists"
 
 read -r -d '' COMMANDS << EOM
 	cd /test/;
