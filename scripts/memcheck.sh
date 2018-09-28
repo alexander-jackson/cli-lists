@@ -1,6 +1,6 @@
 docker_image_name="dockerimage"
 executable="main"
-arguments="add shopping chicken"
+arguments="$@"
 
 read -r -d '' COMMANDS << EOM
 	cd /test/;
