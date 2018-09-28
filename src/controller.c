@@ -18,6 +18,8 @@ void run_command(char* command, int argc, char** argv) {
 		display_lists(argc, argv);
 	} else if (!strcmp(command, "delete")) {
 		delete_list(argc, argv);
+	} else if (!strcmp(command, "remove")) {
+		remove_item(argc, argv);
 	}
 }
 
@@ -204,6 +206,76 @@ void delete_list(int argc, char** argv) {
 	write_file("output.toml", lists);
 
 	// Perform the cleanup operations
+	free(lines);
+	free_list_pointer_array(lists);
+}
+
+void remove_item(int argc, char** argv) {
+	// Check they entered enough parameters
+	if (argc <= 3) {
+		fprintf(stderr, "Please enter a list to delete from and the name of the item.\n");
+		fprintf(stderr, "The following format is used: lists remove {title} {item}\n");
+		exit(1);
+	}
+
+	// Get the list title
+	char* list_title = argv[2];
+	// Get the item text
+	char* item_text = join(argv, 3, argc, ' ');
+
+	// Read the file and then parse it
+	char* lines = read_file("output.toml");
+	struct List** lists = parse_file(lines);
+
+	// Find the list that this item belongs to
+	int list_pos = -1;
+
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		if (!strcmp(lists[i]->title, list_title)) {
+			list_pos = i;
+		}
+	}
+
+	if (list_pos == -1) {
+		fprintf(stderr, "The following list title was not found: '%s'\n", list_title);
+		free(item_text);
+		free(lines);
+		free_list_pointer_array(lists);
+		exit(1);
+	}
+
+	// Get the pointer to the list we found
+	struct List* to_update = lists[list_pos];
+	// Get the position of the item
+	int item_pos = -1;
+
+	for (size_t i = 0; i < to_update->item_count; ++i) {
+		if (!strcmp(to_update->items[i], item_text)) {
+			item_pos = i;
+		}
+	}
+
+	if (item_pos == -1) {
+		fprintf(stderr, "While the list '%s' exists, the item '%s' is not within it.\n", list_title, item_text);
+		free(item_text);
+		free(lines);
+		free_list_pointer_array(lists);
+		exit(1);
+	}
+
+	// Free the item and set it to NULL, then move everything back
+	free(to_update->items[item_pos]);
+	to_update->items[item_pos] = NULL;
+
+	for (size_t i = item_pos; to_update->items[i + 1] != NULL; ++i) {
+		to_update->items[i] = to_update->items[i + 1];
+	}
+
+	// Write the file
+	write_file("output.toml", lists);
+
+	// Free everything
+	free(item_text);
 	free(lines);
 	free_list_pointer_array(lists);
 }

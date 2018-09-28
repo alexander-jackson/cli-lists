@@ -11,4 +11,6 @@ void display_lists(int, char**);
 
 void delete_list(int, char**);
 
+void remove_item(int, char**);
+
 #endif
