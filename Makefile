@@ -1,6 +1,6 @@
 CC := gcc
 CFLAGS := -Wall -Wextra -std=c99
-TARGET := main
+TARGET := lists
 
 SRCDIR := src
 OBJDIR := obj
