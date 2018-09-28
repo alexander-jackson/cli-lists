@@ -14,6 +14,8 @@ void run_command(char* command, int argc, char** argv) {
 		new_list(argc, argv);
 	} else if (!strcmp(command, "add")) {
 		add_item(argc, argv);
+	} else if (!strcmp(command, "display")) {
+		display_lists(argc, argv);
 	}
 }
 
@@ -120,5 +122,43 @@ void add_item(int argc, char** argv) {
 	free(lines);
 
 	// Free the list pointers
+	free_list_pointer_array(lists);
+}
+
+void display_lists(int argc, char** argv) {
+	// Read the file
+	char* lines = read_file("output.toml");
+	// Parse it
+	struct List** lists = parse_file(lines);
+
+	// Check the value of argc
+	if (argc <= 2) {
+		for (size_t i = 0; lists[i] != NULL; ++i) {
+			display_list(lists[i]);
+		}
+	} else {
+		// Get the name of the list
+		char* list_name = argv[2];
+
+		// Iterate through the list and see if we find it
+		int found = 0;
+
+		for (size_t i = 0; lists[i] != NULL; ++i) {
+			if (!strcmp(lists[i]->title, list_name)) {
+				// Display this list
+				display_list(lists[i]);
+				// Set the value of found
+				found = 1;
+			}
+		}
+
+		// If we didn't find the list then complain
+		if (!found) {
+			fprintf(stderr, "Couldn't find the list by the name of '%s'.\n", list_name);
+		}
+	}
+
+	// Cleanup the memory
+	free(lines);
 	free_list_pointer_array(lists);
 }
