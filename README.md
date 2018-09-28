@@ -20,19 +20,23 @@ which will result in the `list` executable.
 
 Creating a list:
 
-`list new {name}`
+`list create {list_name}`
 
 Deleting a list:
 
-`list delete {name}`
+`list delete {list_name}`
 
 Adding an item to a list
 
-`list append {name} {item_text}`
+`list append {list_name} {item_text}`
+
+Removing an item from a list
+
+`list remove {list_name} {item_text}`
 
 Displaying a list:
 
-`list display {name}`
+`list display {list_name}`
 
 ### File Structure
 
