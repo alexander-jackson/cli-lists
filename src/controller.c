@@ -10,16 +10,16 @@
 
 void run_command(char* command, int argc, char** argv) {
 	// Check which command to run
-	if (!strcmp(command, "new")) {
-		new_list(argc, argv);
-	} else if (!strcmp(command, "add")) {
-		add_item(argc, argv);
+	if (!strcmp(command, "create")) {
+		create_list(argc, argv);
+	} else if (!strcmp(command, "append")) {
+		append_item(argc, argv);
 	} else if (!strcmp(command, "display")) {
 		display_lists(argc, argv);
 	}
 }
 
-void new_list(int argc, char** argv) {
+void create_list(int argc, char** argv) {
 	// Get the name of the list to add
 	char* list_title = join(argv, 2, argc, ' ');
 	// Display the name of the list
@@ -61,9 +61,9 @@ void new_list(int argc, char** argv) {
 	free(lines);
 }
 
-void add_item(int argc, char** argv) {
-	// Query should be ./list add {list name} ...
-	// ... is the item they wish to add
+void append_item(int argc, char** argv) {
+	// Query should be ./list append {list name} ...
+	// ... is the item they wish to append
 	char* list_name = argv[2];
 	char* item_text = join(argv, 3, argc, ' ');
 

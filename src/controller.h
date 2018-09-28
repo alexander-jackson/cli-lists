@@ -3,9 +3,9 @@
 
 void run_command(char*, int, char**);
 
-void new_list(int, char**);
+void create_list(int, char**);
 
-void add_item(int, char**);
+void append_item(int, char**);
 
 void display_lists(int, char**);
 
