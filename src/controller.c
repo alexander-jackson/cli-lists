@@ -16,6 +16,8 @@ void run_command(char* command, int argc, char** argv) {
 		append_item(argc, argv);
 	} else if (!strcmp(command, "display")) {
 		display_lists(argc, argv);
+	} else if (!strcmp(command, "delete")) {
+		delete_list(argc, argv);
 	}
 }
 
@@ -159,6 +161,49 @@ void display_lists(int argc, char** argv) {
 	}
 
 	// Cleanup the memory
+	free(lines);
+	free_list_pointer_array(lists);
+}
+
+void delete_list(int argc, char** argv) {
+	if (4 <= argc) {
+		printf("Ignoring arguments past number 4.\n");
+	}
+
+	// Read the file
+	char* lines = read_file("output.toml");
+	// Parse the file
+	struct List** lists = parse_file(lines);
+	// Find the list by name
+	char* list_title = argv[2];
+	int pos = -1;
+
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		if (!strcmp(lists[i]->title, list_title)) {
+			pos = i;
+		}
+	}
+
+	if (pos == -1) {
+		// We didn't find the list
+		fprintf(stderr, "The list '%s' does not exist.\n", list_title);
+		free(lines);
+		free_list_pointer_array(lists);
+		exit(1);
+	}
+
+	// Free the element at pos
+	free_list(lists[pos]);
+	lists[pos] = NULL;
+	// Move all the lists back
+	for (size_t i = (size_t) pos; lists[i + 1] != NULL; ++i) {
+		lists[i] = lists[i + 1];
+	}
+
+	// Now write all the elements to the file
+	write_file("output.toml", lists);
+
+	// Perform the cleanup operations
 	free(lines);
 	free_list_pointer_array(lists);
 }

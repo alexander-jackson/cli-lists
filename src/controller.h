@@ -9,4 +9,6 @@ void append_item(int, char**);
 
 void display_lists(int, char**);
 
+void delete_list(int, char**);
+
 #endif
