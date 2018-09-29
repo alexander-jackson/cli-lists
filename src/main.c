@@ -23,5 +23,8 @@ int main(int argc, char* argv[]) {
 	// Run it
 	run_command(command, argc, argv);
 
+	// Free the memory used by the filepath
+	free(DEFAULT_FILEPATH);
+
 	return 0;
 }
