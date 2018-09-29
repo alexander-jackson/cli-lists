@@ -30,7 +30,7 @@ void create_list(int argc, char** argv) {
 	printf("Attempting to add a list by the name of '%s'\n", list_title);
 
 	// Read the contents of the file
-	char* lines = read_file("output.toml");
+	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
 
@@ -56,7 +56,7 @@ void create_list(int argc, char** argv) {
 	lists[list_count + 1] = NULL;
 
 	// Write the contents to a new file
-	write_file("output.toml", lists);
+	write_file(DEFAULT_FILEPATH, lists);
 
 	// Free all the lists
 	free_list_pointer_array(lists);
@@ -79,7 +79,7 @@ void append_item(int argc, char** argv) {
 	}
 
 	// Read the contents of the file
-	char* lines = read_file("output.toml");
+	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
 
@@ -120,7 +120,7 @@ void append_item(int argc, char** argv) {
 	to_update->items[item_count] = item_text;
 
 	// Write to the new file
-	write_file("output.toml", lists);
+	write_file(DEFAULT_FILEPATH, lists);
 
 	// Free the file lines
 	free(lines);
@@ -131,7 +131,7 @@ void append_item(int argc, char** argv) {
 
 void display_lists(int argc, char** argv) {
 	// Read the file
-	char* lines = read_file("output.toml");
+	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse it
 	struct List** lists = parse_file(lines);
 
@@ -173,7 +173,7 @@ void delete_list(int argc, char** argv) {
 	}
 
 	// Read the file
-	char* lines = read_file("output.toml");
+	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
 	// Find the list by name
@@ -203,7 +203,7 @@ void delete_list(int argc, char** argv) {
 	}
 
 	// Now write all the elements to the file
-	write_file("output.toml", lists);
+	write_file(DEFAULT_FILEPATH, lists);
 
 	// Perform the cleanup operations
 	free(lines);
@@ -224,7 +224,7 @@ void remove_item(int argc, char** argv) {
 	char* item_text = join(argv, 3, argc, ' ');
 
 	// Read the file and then parse it
-	char* lines = read_file("output.toml");
+	char* lines = read_file(DEFAULT_FILEPATH);
 	struct List** lists = parse_file(lines);
 
 	// Find the list that this item belongs to
@@ -272,7 +272,7 @@ void remove_item(int argc, char** argv) {
 	}
 
 	// Write the file
-	write_file("output.toml", lists);
+	write_file(DEFAULT_FILEPATH, lists);
 
 	// Free everything
 	free(item_text);

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lists_config.h"
 #include "file_io.h"
 #include "parser.h"
 #include "list.h"
@@ -13,6 +14,8 @@ int main(int argc, char* argv[]) {
 
 		return 0;
 	}
+
+	setup();
 
 	// Get the second argument
 	char* command = argv[1];
