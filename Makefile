@@ -19,6 +19,10 @@ build: ${OBJ}
 ${OBJDIR}/%.o: ${SRCDIR}/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+install:
+	mkdir -p ~/.local/share/cli-lists/
+	cp lists /usr/local/bin/lists
+
 .PHONY: clean
 
 clean:
