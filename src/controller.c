@@ -26,8 +26,6 @@ void run_command(char* command, int argc, char** argv) {
 void create_list(int argc, char** argv) {
 	// Get the name of the list to add
 	char* list_title = join(argv, 2, argc, ' ');
-	// Display the name of the list
-	printf("Attempting to add a list by the name of '%s'\n", list_title);
 
 	// Read the contents of the file
 	char* lines = read_file(DEFAULT_FILEPATH);
