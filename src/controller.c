@@ -10,15 +10,15 @@
 
 void run_command(char* command, int argc, char** argv) {
 	// Check which command to run
-	if (!strcmp(command, "create")) {
+	if (strcmp(command, "create") == 0) {
 		create_list(argc, argv);
-	} else if (!strcmp(command, "append")) {
+	} else if (strcmp(command, "append") == 0) {
 		append_item(argc, argv);
-	} else if (!strcmp(command, "display")) {
+	} else if (strcmp(command, "display") == 0) {
 		display_lists(argc, argv);
-	} else if (!strcmp(command, "delete")) {
+	} else if (strcmp(command, "delete") == 0) {
 		delete_list(argc, argv);
-	} else if (!strcmp(command, "remove")) {
+	} else if (strcmp(command, "remove") == 0) {
 		remove_item(argc, argv);
 	}
 }
