@@ -3,6 +3,9 @@
 
 #include "list.h"
 
+#define BLU "\x1B[34m"
+#define RESET "\x1B[0m"
+
 void free_list(struct List* list) {
 	// Free the title
 	free(list->title);
@@ -29,13 +32,13 @@ void free_list_pointer_array(struct List** lists) {
 
 void display_list(struct List* list) {
 	// Display the title
-	printf("List Title: %s\n", list->title);
-
-	// Display the item count
-	printf("Item count: %zu\n", list->item_count);
+	printf("List: %s%s%s\n", BLU, list->title, RESET);
 
 	// Display the items
 	for (size_t i = 0; list->items[i] != NULL; ++i) {
-		printf("%s\n", list->items[i]);
+		printf("%zu: %s\n", i + 1, list->items[i]);
 	}
+
+	// Display some space at the end
+	printf("\n");
 }
