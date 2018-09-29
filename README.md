@@ -20,7 +20,7 @@ You can then do
 
 `make install`
 
-to create the needed directories and move the `lists` binary to `/usr/bin/local/lists`
+to create the needed directories and move the `lists` binary to `/usr/local/bin/lists`
 
 Alternatively, `make build install` will build and install the binary for you.
 
