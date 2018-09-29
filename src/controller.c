@@ -24,8 +24,14 @@ void run_command(char* command, int argc, char** argv) {
 }
 
 void create_list(int argc, char** argv) {
+	// Check that the user entered enough arguments
+	if (argc <= 2) {
+		fprintf(stderr, "Please enter the name of the list you wish to create.\n");
+		exit(1);
+	}
+
 	// Get the name of the list to add
-	char* list_title = join(argv, 2, argc, ' ');
+	char* list_title = argv[2];
 
 	// Read the contents of the file
 	char* lines = read_file(DEFAULT_FILEPATH);
@@ -166,8 +172,10 @@ void display_lists(int argc, char** argv) {
 }
 
 void delete_list(int argc, char** argv) {
-	if (4 <= argc) {
-		printf("Ignoring arguments past number 4.\n");
+	// Check that the user entered enough parameters
+	if (argc <= 2) {
+		fprintf(stderr, "Please enter the name of the list you wish to delete.\n");
+		exit(1);
 	}
 
 	// Read the file
