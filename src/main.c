@@ -1,21 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include "utils.h"
 #include "lists_config.h"
-#include "file_io.h"
-#include "parser.h"
-#include "list.h"
 #include "controller.h"
 
 int main(int argc, char* argv[]) {
-	if (argc < 2) {
-		// Display the help menu
-		puts("Help");
+	// Setup the config parameters
+	setup();
 
+	// Check for whether the user wants help
+	if (argc < 2 || !strcmp(argv[1], "help") || !strcmp(argv[1], "--help")) {
+		// Display the help menu
+		help();
 		return 0;
 	}
 
-	setup();
+	// Check for version number
+	if (!strcmp(argv[1], "version") || !strcmp(argv[1], "--version")) {
+		printf("cli-lists version %s\n", VERSION_NUMBER);
+		return 0;
+	}
 
 	// Get the second argument
 	char* command = argv[1];
