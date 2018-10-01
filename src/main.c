@@ -14,12 +14,14 @@ int main(int argc, char* argv[]) {
 	if (argc < 2 || !strcmp(argv[1], "help") || !strcmp(argv[1], "--help")) {
 		// Display the help menu
 		help();
+		free(DEFAULT_FILEPATH);
 		return 0;
 	}
 
 	// Check for version number
 	if (!strcmp(argv[1], "version") || !strcmp(argv[1], "--version")) {
 		printf("cli-lists version %s\n", VERSION_NUMBER);
+		free(DEFAULT_FILEPATH);
 		return 0;
 	}
 
