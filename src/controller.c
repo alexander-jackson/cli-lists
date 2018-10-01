@@ -30,8 +30,16 @@ void create_list(int argc, char** argv) {
 		exit(1);
 	}
 
-	// Get the name of the list to add
-	char* list_title = argv[2];
+	// Get the size of argv
+	size_t title_len = strlen(argv[2]);
+	// Allocate memory
+	char* list_title = malloc(sizeof(char) * (title_len + 1));
+
+	// Copy into the buffer
+	strncpy(list_title, argv[2], title_len);
+
+	// Allocate the null pointer
+	list_title[title_len] = '\0';
 
 	// Read the contents of the file
 	char* lines = read_file(DEFAULT_FILEPATH);
