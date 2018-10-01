@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "controller.h"
+#include "parser.h"
 #include "string_ops.h"
 #include "file_io.h"
 #include "list.h"

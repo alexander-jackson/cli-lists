@@ -1,6 +1,6 @@
-#include "parser.h"
+#include "list.h"
 
-// Takes a char* filepath and returns a char* pointing 
+// Takes a char* filepath and returns a char* pointing
 // to the contents of the file in memory
 char* read_file(char*);
 
