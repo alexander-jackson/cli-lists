@@ -24,4 +24,8 @@ void delete_list(int, char**);
 // list, remove that item
 void remove_item(int, char**);
 
+// Given the current name of a list and the desired name for it,
+// rename the list in the file
+void rename_list(int, char**);
+
 #endif

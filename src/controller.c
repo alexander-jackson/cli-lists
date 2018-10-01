@@ -20,6 +20,8 @@ void run_command(char* command, int argc, char** argv) {
 		delete_list(argc, argv);
 	} else if (strcmp(command, "remove") == 0) {
 		remove_item(argc, argv);
+	} else if (strcmp(command, "rename") == 0) {
+		rename_list(argc, argv);
 	}
 }
 
@@ -291,5 +293,55 @@ void remove_item(int argc, char** argv) {
 	// Free everything
 	free(item_text);
 	free(lines);
+	free_list_pointer_array(lists);
+}
+
+void rename_list(int argc, char** argv) {
+	if (argc < 4) {
+		fprintf(stderr, "Please enter the name of the list currently and what you would like to change it to.\n");
+		fprintf(stderr, "Command format: lists rename {current} {desired}.\n");
+		exit(1);
+	}
+
+	// Get the current name of the list
+	char* current = argv[2];
+
+	// Allocate argv[3] on the heap
+	size_t desired_len = strlen(argv[3]);
+	char* desired = malloc(sizeof(char) * (desired_len + 1));
+	strncpy(desired, argv[3], desired_len);
+	desired[desired_len] = '\0';
+
+	// Read the file
+	char* lines = read_file(DEFAULT_FILEPATH);
+	// Parse the file
+	struct List** lists = parse_file(lines);
+	// Free the lines we read earlier
+	free(lines);
+
+	// Search through the list and try to find the list to rename
+	int index = -1;
+
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		if (strcmp(lists[i]->title, current) == 0) {
+			index = i;
+		}
+	}
+
+	// Check if we found the item
+	if (index == -1) {
+		fprintf(stderr, "Couldn't find the list with name '%s'.", current);
+		free(desired);
+		free_list_pointer_array(lists);
+		exit(1);
+	}
+
+	// Otherwise update the title of the list
+	lists[index]->title = desired;
+
+	// Write this back to the file
+	write_file(DEFAULT_FILEPATH, lists);
+
+	// Free everything we need to
 	free_list_pointer_array(lists);
 }
