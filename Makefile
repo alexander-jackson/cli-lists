@@ -21,7 +21,13 @@ ${OBJDIR}/%.o: ${SRCDIR}/%.c
 
 install:
 	mkdir -p ~/.local/share/cli-lists/
+	touch ~/.local/share/cli-lists/lists.toml
 	cp lists /usr/local/bin/lists
+
+uninstall:
+	rm ~/.local/share/cli-lists/lists.toml
+	rm /usr/local/bin/lists
+	rmdir ~/.local/share/cli-lists
 
 .PHONY: clean
 
