@@ -7,6 +7,8 @@ read -r -d '' COMMANDS << EOM
 	touch ~/.local/share/cli-lists/lists.toml
 	cd /test/;
 	make clean debug;
+	./lists create shopping
+	./lists append shopping food
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$executable $arguments;
 EOM
 
