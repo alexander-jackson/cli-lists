@@ -106,14 +106,14 @@ void append_item(int argc, char** argv) {
 	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
-	// Free the lines we read before
+	// Free the lines
 	free(lines);
 
 	// Find the list with the name the user has specified
 	int pos = -1;
 
 	for (size_t i = 0; lists[i] != NULL; ++i) {
-		if (strcmp(lists[pos]->title, list_name) == 0) {
+		if (strcmp(lists[i]->title, list_name) == 0) {
 			pos = i;
 			break;
 		}
@@ -130,6 +130,18 @@ void append_item(int argc, char** argv) {
 
 	// Get the list pointer
 	struct List* to_update = lists[pos];
+
+	// Check that the list doesn't already contain the item
+	for (size_t i = 0; to_update->items[i] != NULL; ++i) {
+		if (strcmp(to_update->items[i], item_text) == 0) {
+			// This is a duplicate item
+			fprintf(stderr, "The list '%s' already contains the "\
+					"item '%s'.\n", list_name, item_text);
+			free(item_text);
+			free_list_pointer_array(lists);
+			return;
+		}
+	}
 
 	// Reallocate memory and update the list
 	size_t item_count = to_update->item_count;
