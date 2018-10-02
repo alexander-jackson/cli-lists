@@ -110,19 +110,13 @@ void append_item(int argc, char** argv) {
 	free(lines);
 
 	// Find the list with the name the user has specified
-	int pos = 0;
+	int pos = -1;
 
-	while (1) {
-		if (lists[pos] == NULL) {
-			pos = -1;
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		if (strcmp(lists[pos]->title, list_name) == 0) {
+			pos = i;
 			break;
 		}
-
-		if (!strcmp(lists[pos]->title, list_name)) {
-			break;
-		}
-
-		++pos;
 	}
 
 	// If pos == -1 then the list wasn't found
