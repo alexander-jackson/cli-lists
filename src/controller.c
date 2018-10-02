@@ -49,10 +49,21 @@ void create_list(int argc, char** argv) {
 	// Parse the file
 	struct List** lists = parse_file(lines);
 
-	// Count the number of lists so far
+	// Count the number of lists so far and ensure the list name doesn't
+	// already exist
 	size_t list_count = 0;
-	while (lists[list_count] != NULL)
+	while (lists[list_count] != NULL) {
+		if (strcmp(lists[list_count]->title, list_title) == 0) {
+			// A list already exists with this name
+			fprintf(stderr, "A list with the name '%s' already " \
+					"exists.\n", list_title);
+			free(list_title);
+			free(lines);
+			free_list_pointer_array(lists);
+			exit(1);
+		}
 		++list_count;
+	}
 
 	// Reallocate space, including the new list and NULL pointer
 	lists = realloc(lists, sizeof(struct List*) * (list_count + 2));
