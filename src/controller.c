@@ -48,6 +48,8 @@ void create_list(int argc, char** argv) {
 	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
+	// Free the lines we parsed earlier
+	free(lines);
 
 	// Count the number of lists so far and ensure the list name doesn't
 	// already exist
@@ -58,7 +60,6 @@ void create_list(int argc, char** argv) {
 			fprintf(stderr, "A list with the name '%s' already " \
 					"exists.\n", list_title);
 			free(list_title);
-			free(lines);
 			free_list_pointer_array(lists);
 			exit(1);
 		}
@@ -86,9 +87,6 @@ void create_list(int argc, char** argv) {
 
 	// Free all the lists
 	free_list_pointer_array(lists);
-
-	// Free the output of read_file
-	free(lines);
 }
 
 void append_item(int argc, char** argv) {
@@ -108,6 +106,8 @@ void append_item(int argc, char** argv) {
 	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
+	// Free the lines we read before
+	free(lines);
 
 	// Find the list with the name the user has specified
 	int pos = 0;
@@ -148,9 +148,6 @@ void append_item(int argc, char** argv) {
 	// Write to the new file
 	write_file(DEFAULT_FILEPATH, lists);
 
-	// Free the file lines
-	free(lines);
-
 	// Free the list pointers
 	free_list_pointer_array(lists);
 }
@@ -160,6 +157,8 @@ void display_lists(int argc, char** argv) {
 	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse it
 	struct List** lists = parse_file(lines);
+	// Free the lines we read from the file
+	free(lines);
 
 	// Check the value of argc
 	if (argc <= 2) {
@@ -189,7 +188,6 @@ void display_lists(int argc, char** argv) {
 	}
 
 	// Cleanup the memory
-	free(lines);
 	free_list_pointer_array(lists);
 }
 
@@ -204,6 +202,8 @@ void delete_list(int argc, char** argv) {
 	char* lines = read_file(DEFAULT_FILEPATH);
 	// Parse the file
 	struct List** lists = parse_file(lines);
+	// Free the lines we read before
+	free(lines);
 	// Find the list by name
 	char* list_title = argv[2];
 	int pos = -1;
@@ -234,7 +234,6 @@ void delete_list(int argc, char** argv) {
 	write_file(DEFAULT_FILEPATH, lists);
 
 	// Perform the cleanup operations
-	free(lines);
 	free_list_pointer_array(lists);
 }
 
@@ -254,6 +253,8 @@ void remove_item(int argc, char** argv) {
 	// Read the file and then parse it
 	char* lines = read_file(DEFAULT_FILEPATH);
 	struct List** lists = parse_file(lines);
+	// Free the lines we read before
+	free(lines);
 
 	// Find the list that this item belongs to
 	int list_pos = -1;
@@ -304,7 +305,6 @@ void remove_item(int argc, char** argv) {
 
 	// Free everything
 	free(item_text);
-	free(lines);
 	free_list_pointer_array(lists);
 }
 
