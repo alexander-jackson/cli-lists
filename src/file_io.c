@@ -65,7 +65,7 @@ void write_file(char* filepath, struct List** lists) {
 	FILE* f = fopen(filepath, "w");
 
 	// Iterate through the lists
-	for (size_t i = 0; lists[i] != NULL; ++i) {
+	for (size_t i = 0; i < lists[i]->item_count; ++i) {
 		// Write the title to the file
 		fprintf(f, "[%s]\n", lists[i]->title);
 		// Iterate through the items and write them
