@@ -375,3 +375,45 @@ void rename_list(int argc, char** argv) {
 	// Free everything we need to
 	free_list_pointer_array(lists);
 }
+
+void clear_list(int argc, char** argv) {
+	if (argc < 3) {
+		fprintf(stderr, "Please enter the name of the list you would "\
+				"to clear.\n");
+		EXIT_CODE = 1;
+		return;
+	}
+
+	// Read the list information
+	char* lines = read_file(DEFAULT_FILEPATH);
+	struct List** lists = parse_file(lines);
+	free(lines);
+
+	// Get the name of the list
+	char* list_title = argv[2];
+
+	// Find the list
+	int pos = -1;
+
+	for (size_t i = 0; lists[i] != NULL; ++i) {
+		if (strcmp(lists[i]->title, list_title) == 0) {
+			pos = i;
+		}
+	}
+
+	if (pos == -1) {
+		fprintf(stderr, "Couldn't find the list with the name: '%s'\n", list_title);
+		free_list_pointer_array(lists);
+		EXIT_CODE = 1;
+		return;
+	}
+
+	// Get the list and set its count to 0
+	lists[pos]->item_count = 0;
+
+	// Write it back to the file
+	write_file(DEFAULT_FILEPATH, lists);
+
+	// Free the memory
+	free_list_pointer_array(lists);
+}
