@@ -6,6 +6,7 @@
 
 char* DEFAULT_FILEPATH;
 char* VERSION_NUMBER;
+int EXIT_CODE;
 
 char* get_default_filepath() {
         // Get the home directory
@@ -33,4 +34,6 @@ void setup() {
 	DEFAULT_FILEPATH = get_default_filepath();
 	// Set the value of VERSION_NUMBER
 	VERSION_NUMBER = "18.09.29";
+	// Set the value of EXIT_CODE
+	EXIT_CODE = 0;
 }

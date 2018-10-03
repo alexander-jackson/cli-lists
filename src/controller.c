@@ -30,7 +30,7 @@ void create_list(int argc, char** argv) {
 	// Check that the user entered enough arguments
 	if (argc <= 2) {
 		fprintf(stderr, "Please enter the name of the list you wish to create.\n");
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Get the size of argv
@@ -61,7 +61,7 @@ void create_list(int argc, char** argv) {
 					"exists.\n", list_title);
 			free(list_title);
 			free_list_pointer_array(lists);
-			return;
+			EXIT_CODE = 1;
 		}
 		++list_count;
 	}
@@ -99,7 +99,7 @@ void append_item(int argc, char** argv) {
 	if (item_text[0] == '\0') {
 		fputs("You cannot enter a string of length 0.\n", stderr);
 		free(item_text);
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Read the contents of the file
@@ -125,7 +125,7 @@ void append_item(int argc, char** argv) {
 		free(item_text);
 		free(lines);
 		free_list_pointer_array(lists);
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Get the list pointer
@@ -139,7 +139,7 @@ void append_item(int argc, char** argv) {
 					"item '%s'.\n", list_name, item_text);
 			free(item_text);
 			free_list_pointer_array(lists);
-			return;
+			EXIT_CODE = 1;
 		}
 	}
 
@@ -201,7 +201,7 @@ void delete_list(int argc, char** argv) {
 	// Check that the user entered enough parameters
 	if (argc <= 2) {
 		fprintf(stderr, "Please enter the name of the list you wish to delete.\n");
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Read the file
@@ -225,7 +225,7 @@ void delete_list(int argc, char** argv) {
 		fprintf(stderr, "The list '%s' does not exist.\n", list_title);
 		free(lines);
 		free_list_pointer_array(lists);
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Free the element at pos
@@ -248,7 +248,7 @@ void remove_item(int argc, char** argv) {
 	if (argc <= 3) {
 		fprintf(stderr, "Please enter a list to delete from and the name of the item.\n");
 		fprintf(stderr, "The following format is used: lists remove {title} {item}\n");
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Get the list title
@@ -276,7 +276,7 @@ void remove_item(int argc, char** argv) {
 		free(item_text);
 		free(lines);
 		free_list_pointer_array(lists);
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Get the pointer to the list we found
@@ -295,7 +295,7 @@ void remove_item(int argc, char** argv) {
 		free(item_text);
 		free(lines);
 		free_list_pointer_array(lists);
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Free the item and set it to NULL, then move everything back
@@ -318,7 +318,7 @@ void rename_list(int argc, char** argv) {
 	if (argc < 4) {
 		fprintf(stderr, "Please enter the name of the list currently and what you would like to change it to.\n");
 		fprintf(stderr, "Command format: lists rename {current} {desired}.\n");
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Get the current name of the list
@@ -351,7 +351,7 @@ void rename_list(int argc, char** argv) {
 		fprintf(stderr, "Couldn't find the list with name '%s'.", current);
 		free(desired);
 		free_list_pointer_array(lists);
-		return;
+		EXIT_CODE = 1;
 	}
 
 	// Otherwise update the title of the list

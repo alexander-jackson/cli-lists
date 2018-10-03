@@ -15,14 +15,14 @@ int main(int argc, char* argv[]) {
 		// Display the help menu
 		help();
 		free(DEFAULT_FILEPATH);
-		return 0;
+		return EXIT_CODE;
 	}
 
 	// Check for version number
 	if (!strcmp(argv[1], "version") || !strcmp(argv[1], "--version")) {
 		printf("cli-lists version %s\n", VERSION_NUMBER);
 		free(DEFAULT_FILEPATH);
-		return 0;
+		return EXIT_CODE;
 	}
 
 	// Get the second argument
@@ -34,5 +34,5 @@ int main(int argc, char* argv[]) {
 	// Free the memory used by the filepath
 	free(DEFAULT_FILEPATH);
 
-	return 0;
+	return EXIT_CODE;
 }
