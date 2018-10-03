@@ -65,11 +65,11 @@ void write_file(char* filepath, struct List** lists) {
 	FILE* f = fopen(filepath, "w");
 
 	// Iterate through the lists
-	for (size_t i = 0; i < lists[i]->item_count; ++i) {
+	for (size_t i = 0; lists[i] != NULL; ++i) {
 		// Write the title to the file
 		fprintf(f, "[%s]\n", lists[i]->title);
 		// Iterate through the items and write them
-		for (size_t j = 0; lists[i]->items[j] != NULL; ++j) {
+		for (size_t j = 0; j < lists[i]->item_count; ++j) {
 			// Write the item to the file
 			fprintf(f, "%s\n", lists[i]->items[j]);
 		}
