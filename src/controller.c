@@ -31,6 +31,7 @@ void create_list(int argc, char** argv) {
 	if (argc <= 2) {
 		fprintf(stderr, "Please enter the name of the list you wish to create.\n");
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Get the size of argv
@@ -62,6 +63,7 @@ void create_list(int argc, char** argv) {
 			free(list_title);
 			free_list_pointer_array(lists);
 			EXIT_CODE = 1;
+			return;
 		}
 		++list_count;
 	}
@@ -100,6 +102,7 @@ void append_item(int argc, char** argv) {
 		fputs("You cannot enter a string of length 0.\n", stderr);
 		free(item_text);
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Read the contents of the file
@@ -126,6 +129,7 @@ void append_item(int argc, char** argv) {
 		free(lines);
 		free_list_pointer_array(lists);
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Get the list pointer
@@ -140,6 +144,7 @@ void append_item(int argc, char** argv) {
 			free(item_text);
 			free_list_pointer_array(lists);
 			EXIT_CODE = 1;
+			return;
 		}
 	}
 
@@ -202,6 +207,7 @@ void delete_list(int argc, char** argv) {
 	if (argc <= 2) {
 		fprintf(stderr, "Please enter the name of the list you wish to delete.\n");
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Read the file
@@ -226,6 +232,7 @@ void delete_list(int argc, char** argv) {
 		free(lines);
 		free_list_pointer_array(lists);
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Free the element at pos
@@ -249,6 +256,7 @@ void remove_item(int argc, char** argv) {
 		fprintf(stderr, "Please enter a list to delete from and the name of the item.\n");
 		fprintf(stderr, "The following format is used: lists remove {title} {item}\n");
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Get the list title
@@ -277,6 +285,7 @@ void remove_item(int argc, char** argv) {
 		free(lines);
 		free_list_pointer_array(lists);
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Get the pointer to the list we found
@@ -296,6 +305,7 @@ void remove_item(int argc, char** argv) {
 		free(lines);
 		free_list_pointer_array(lists);
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Free the item and set it to NULL, then move everything back
@@ -319,6 +329,7 @@ void rename_list(int argc, char** argv) {
 		fprintf(stderr, "Please enter the name of the list currently and what you would like to change it to.\n");
 		fprintf(stderr, "Command format: lists rename {current} {desired}.\n");
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Get the current name of the list
@@ -352,6 +363,7 @@ void rename_list(int argc, char** argv) {
 		free(desired);
 		free_list_pointer_array(lists);
 		EXIT_CODE = 1;
+		return;
 	}
 
 	// Otherwise update the title of the list
