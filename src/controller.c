@@ -99,8 +99,9 @@ void append_item(int argc, char** argv) {
 
 	// Copy argv[2] into the heap
 	size_t name_len = strlen(argv[2]);
-	char* list_name = malloc(sizeof(char) * name_len);
+	char* list_name = malloc(sizeof(char) * (name_len + 1));
 	strncpy(list_name, argv[2], name_len);
+	list_name[name_len] = '\0';
 
 	char* item_text = join(argv, 3, argc, ' ');
 
