@@ -28,4 +28,7 @@ void remove_item(int, char**);
 // rename the list in the file
 void rename_list(int, char**);
 
+// Given the name of a list, clear all the elements of it
+void clear_list(int, char**);
+
 #endif

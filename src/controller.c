@@ -23,6 +23,8 @@ void run_command(char* command, int argc, char** argv) {
 		remove_item(argc, argv);
 	} else if (strcmp(command, "rename") == 0) {
 		rename_list(argc, argv);
+	} else if (strcmp(command, "clear") == 0) {
+		clear_list(argc, argv);
 	}
 }
 
@@ -94,7 +96,12 @@ void create_list(int argc, char** argv) {
 void append_item(int argc, char** argv) {
 	// Query should be ./list append {list name} ...
 	// ... is the item they wish to append
-	char* list_name = argv[2];
+
+	// Copy argv[2] into the heap
+	size_t name_len = strlen(argv[2]);
+	char* list_name = malloc(sizeof(char) * name_len);
+	strncpy(list_name, argv[2], name_len);
+
 	char* item_text = join(argv, 3, argc, ' ');
 
 	// Check that the item_text exists
@@ -155,6 +162,8 @@ void append_item(int argc, char** argv) {
 	to_update->items[item_count + 1] = NULL;
 	// Add the new item
 	to_update->items[item_count] = item_text;
+	// Update the number of items
+	++to_update->item_count;
 
 	// Write to the new file
 	write_file(DEFAULT_FILEPATH, lists);
