@@ -46,6 +46,14 @@ Displaying a list:
 
 `lists display {list_name}`
 
+Renaming a list:
+
+`lists rename {old_name} {new_name}`
+
+Clearing a list:
+
+`lists clear {list_name}`
+
 ### File Structure
 
 CLI Lists uses a single file to track your lists, stored within the `~/.local/share` directory
