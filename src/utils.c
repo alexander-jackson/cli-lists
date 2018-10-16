@@ -14,4 +14,6 @@ void help() {
 	printf("\tlists append {list_name} {item} => Appends $item to $list_name\n");
 	printf("\tlists remove {list_name} {item} => Removes $item from $list_name\n");
 	printf("\tlists display {list_name} => Displays the contents of $list_name. If $list_name is empty, displays all lists\n");
+	printf("\tlists rename {list_name} {new_name} => Renames the list $list_name to $new_name\n");
+	printf("\tlists clear {list_name} => Clears all items in the list called $list_name\n");
 }
