@@ -33,7 +33,7 @@ void setup() {
 	// Set the value of DEFAULT_FILEPATH
 	DEFAULT_FILEPATH = get_default_filepath();
 	// Set the value of VERSION_NUMBER
-	VERSION_NUMBER = "18.09.29";
+	VERSION_NUMBER = "18.10.16";
 	// Set the value of EXIT_CODE
 	EXIT_CODE = 0;
 }
